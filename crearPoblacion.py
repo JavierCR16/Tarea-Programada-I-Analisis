@@ -1,5 +1,4 @@
 from PIL import Image
-from random import *
 from random import choice
 
 def createPopulation(cantidad, width, height):
@@ -17,9 +16,4 @@ def createPopulation(cantidad, width, height):
                     child.putpixel(coordinates, 0)
         arrayPoblacion.insert(tmp, child)
         tmp+=1
-    arrayPoblacion[0].save("12.png")
     return arrayPoblacion
-            
-createPopulation(10,32,32)
-                
-            
