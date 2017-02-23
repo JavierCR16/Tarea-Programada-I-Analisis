@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image
 from crearPoblacion import createPopulation
+from euclideana import *
+from adaptivilidadJavierBryan import *
 
 class Ui_MainWindow(object):
 
@@ -16,7 +18,7 @@ class Ui_MainWindow(object):
     
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(494, 325)
+        MainWindow.resize(498, 350)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
@@ -62,6 +64,20 @@ class Ui_MainWindow(object):
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(10, 190, 141, 16))
         self.label_5.setObjectName("label_5")
+        #
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(10, 280, 121, 16))
+        self.label_6.setObjectName("label_6")
+        self.Euclideana = QtWidgets.QRadioButton(self.centralwidget)
+        self.Euclideana.setGeometry(QtCore.QRect(140, 280, 84, 19))
+        self.Euclideana.setObjectName("Euclideana")
+        self.radioButton_2 = QtWidgets.QRadioButton(self.centralwidget)
+        self.radioButton_2.setGeometry(QtCore.QRect(220, 280, 84, 19))
+        self.radioButton_2.setObjectName("radioButton_2")
+        self.JavieryBryan = QtWidgets.QRadioButton(self.centralwidget)
+        self.JavieryBryan.setGeometry(QtCore.QRect(320, 280, 91, 19))
+        self.JavieryBryan.setObjectName("JavieryBryan")
+        #
         self.PorcentajeMutacion = QtWidgets.QLineEdit(self.centralwidget)
         self.PorcentajeMutacion.setGeometry(QtCore.QRect(10, 210, 121, 20))
         self.PorcentajeMutacion.setObjectName("PorcentajeMutacion")
@@ -91,6 +107,10 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Porcentaje de individos menos aptos"))
         self.saveData.setText(_translate("MainWindow", "Guardar/Iniciar"))
         self.label_5.setText(_translate("MainWindow", "Porcentaje de genes a mutar"))
+        self.label_6.setText(_translate("MainWindow", "Seleccionar adaptavilidad"))
+        self.Euclideana.setText(_translate("MainWindow", "Euclideana"))
+        self.radioButton_2.setText(_translate("MainWindow", "RadioButton"))
+        self.JavieryBryan.setText(_translate("MainWindow", "Javier y Bryan"))
 
     def home(self):
         self.pushButton.clicked.connect(self.openFile)
@@ -135,6 +155,13 @@ class Ui_MainWindow(object):
     def Iniciar(self):
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height)
+        if(self.Euclideana.isChecked()):
+            euclideana()
+        elif(self.JavieryBryan.isChecked()):
+            adaptavilidadJavierBryan()
+        else:
+            print("Usar segunda opcion")
+
 
 
 if __name__ == "__main__":
