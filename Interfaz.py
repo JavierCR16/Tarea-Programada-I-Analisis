@@ -1,8 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image
 from crearPoblacion import createPopulation
-from euclideana import *
-from adaptivilidadJavierBryan import *
+from funcionesAdaptavilidad import *
 
 class Ui_MainWindow(object):
 
@@ -161,6 +160,7 @@ class Ui_MainWindow(object):
             adaptavilidadJavierBryan()
         else:
             print("Usar segunda opcion")
+
 
 
 
