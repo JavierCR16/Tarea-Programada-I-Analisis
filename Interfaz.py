@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image
 from crearPoblacion import createPopulation
 from funcionesAdaptavilidad import *
+from random import *
 
 class Ui_MainWindow(object):
 
@@ -88,6 +89,7 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.Euclideana.setChecked(True)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -105,7 +107,7 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "Porcentaje de cruce"))
         self.label_4.setText(_translate("MainWindow", "Porcentaje de individos menos aptos"))
         self.saveData.setText(_translate("MainWindow", "Guardar/Iniciar"))
-        self.label_5.setText(_translate("MainWindow", "Porcentaje de genes a mutar"))
+        self.label_5.setText(_translate("MainWindow", "Porcentaje mutaciones"))
         self.label_6.setText(_translate("MainWindow", "Seleccionar adaptavilidad"))
         self.Euclideana.setText(_translate("MainWindow", "Euclideana"))
         self.radioButton_2.setText(_translate("MainWindow", "RadioButton"))
@@ -160,6 +162,37 @@ class Ui_MainWindow(object):
             adaptavilidadJavierBryan()
         else:
             print("Usar segunda opcion")
+
+        pm = int((self.mutacion*self.tamañoPoblacion)/100)
+        print(pm)
+        tmp=0
+        listaAux=[]
+        while tmp<=pm:
+            ran = randrange(0,self.tamañoPoblacion,1)
+            while(ran in listaAux):
+                ran = randrange(0, self.tamañoPoblacion, 1)
+            listaAux.insert(tmp, ran)
+            tmp+=1
+        listaMutantes = []
+        for index in listaAux:
+            listaMutantes.append(self.arrayPoblacion[index])
+        listaMutantes[0].save("Before.png")
+        for imagen in listaMutantes:
+            for x in range(imagen.size[0]):
+                for y in range(imagen.size[1]):
+                    if (choice([True, False])):
+                        coordinates = x, y
+                        color = imagen.getpixel(coordinates)+255
+                        if(color>255):
+                            color-=imagen.getpixel(coordinates)
+                        imagen.putpixel(coordinates, color)
+        tmp=0
+        listaMutantes[0].save("After.png")
+        while(tmp<len(listaMutantes)):
+            for index in listaAux:
+                self.arrayPoblacion[index]=listaMutantes[tmp]
+            tmp+=1
+
 
 
 

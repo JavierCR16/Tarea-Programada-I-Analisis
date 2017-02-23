@@ -14,5 +14,4 @@ def createPopulation(cantidad, width, height):
                     child.putpixel(coordinates, randrange(0,255,1))
         arrayPoblacion.insert(tmp, child)
         tmp+=1
-    arrayPoblacion[0].save("bn.png")
     return arrayPoblacion
