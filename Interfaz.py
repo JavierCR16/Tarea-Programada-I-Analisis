@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image
-from crearPoblacion import createPopulation
+from crearPoblacion import *
 from funcionesAdaptavilidad import *
 from random import *
 
@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Abrir"))
         self.label.setText(_translate("MainWindow", "Tamaño de la población"))
         self.label_3.setText(_translate("MainWindow", "Porcentaje de cruce"))
-        self.label_4.setText(_translate("MainWindow", "Porcentaje de individos menos aptos"))
+        self.label_4.setText(_translate("MainWindow", "Porcentaje de individuos menos aptos"))
         self.saveData.setText(_translate("MainWindow", "Guardar/Iniciar"))
         self.label_5.setText(_translate("MainWindow", "Porcentaje mutaciones"))
         self.label_6.setText(_translate("MainWindow", "Seleccionar adaptavilidad"))
@@ -114,6 +114,7 @@ class Ui_MainWindow(object):
         self.JavieryBryan.setText(_translate("MainWindow", "Javier y Bryan"))
 
     def home(self):
+
         self.pushButton.clicked.connect(self.openFile)
         self.saveData.clicked.connect(self.guardarVariables)
 
@@ -154,15 +155,18 @@ class Ui_MainWindow(object):
             self.label_7.setText("Solo números enteros")
 
     def Iniciar(self):
+        self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height)
+        mutacion(self.arrayPoblacion[0].imagenGenerada,self.mutacion)
+
         if(self.Euclideana.isChecked()):
             euclideana()
         elif(self.JavieryBryan.isChecked()):
             adaptavilidadJavierBryan()
         else:
             print("Usar segunda opcion")
-
+        """
         pm = int((self.mutacion*self.tamañoPoblacion)/100)
         print(pm)
         tmp=0
@@ -192,7 +196,7 @@ class Ui_MainWindow(object):
             for index in listaAux:
                 self.arrayPoblacion[index]=listaMutantes[tmp]
             tmp+=1
-
+            """
 
 
 
