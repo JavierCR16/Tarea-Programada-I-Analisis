@@ -3,6 +3,7 @@ from PIL import Image
 from crearPoblacion import *
 from funcionesAdaptavilidad import *
 from random import *
+import numpy as np
 
 class Ui_MainWindow(object):
 
@@ -152,14 +153,19 @@ class Ui_MainWindow(object):
             else:
                 self.label_7.setText("Guardado, ingrese una imagen")
         except:
-            self.label_7.setText("Solo números enteros")
+            self.label_7.setText("Error")
 
     def Iniciar(self):
         self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height)
-        mutacion(self.arrayPoblacion[0].imagenGenerada,self.mutacion)
-
+        #Ciclo
+        establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta)
+        generacion1 = cruzar(self.arrayPoblacion, self.porcentajeCruce)
+        print("Indice 1 generacion\n")
+        establecerIndicesSimilitud(generacion1, self.imagenMeta)
+        #mutacion(self.arrayPoblacion[0].imagenGenerada,self.mutacion)
+        """
         if(self.Euclideana.isChecked()):
             euclideana()
         elif(self.JavieryBryan.isChecked()):
@@ -167,39 +173,6 @@ class Ui_MainWindow(object):
         else:
             print("Usar segunda opcion")
         """
-        pm = int((self.mutacion*self.tamañoPoblacion)/100)
-        print(pm)
-        tmp=0
-        listaAux=[]
-        while tmp<=pm:
-            ran = randrange(0,self.tamañoPoblacion,1)
-            while(ran in listaAux):
-                ran = randrange(0, self.tamañoPoblacion, 1)
-            listaAux.insert(tmp, ran)
-            tmp+=1
-        listaMutantes = []
-        for index in listaAux:
-            listaMutantes.append(self.arrayPoblacion[index])
-        listaMutantes[0].save("Before.png")
-        for imagen in listaMutantes:
-            for x in range(imagen.size[0]):
-                for y in range(imagen.size[1]):
-                    if (choice([True, False])):
-                        coordinates = x, y
-                        color = imagen.getpixel(coordinates)+255
-                        if(color>255):
-                            color-=imagen.getpixel(coordinates)
-                        imagen.putpixel(coordinates, color)
-        tmp=0
-        listaMutantes[0].save("After.png")
-        while(tmp<len(listaMutantes)):
-            for index in listaAux:
-                self.arrayPoblacion[index]=listaMutantes[tmp]
-            tmp+=1
-            """
-
-
-
 
 if __name__ == "__main__":
     import sys

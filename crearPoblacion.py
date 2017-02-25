@@ -66,11 +66,6 @@ def mutacion(imagenMutar,porcentajeMutacion):
 
     return imagenMutar
 
-
-
-
-
-
     # while(porcentajeMutacion<seMutara):
     #    seMutara = random.randrange(0,101)
 
@@ -87,6 +82,45 @@ def  cantidadPixeles(matriz):
 
 
     return tmp
+
+def cruzar(generacion, porcentaje):
+    tmp = generacion
+    nuevoArray=[]
+    poblacion = len(generacion)
+    while(len(nuevoArray) < poblacion):
+        hijo1=hijo2=0
+        while(hijo1==hijo2):
+            hijo1 = randrange(0,len(tmp))
+            hijo2 = randrange(0,len(tmp))
+        hijo1=tmp[hijo1]
+        hijo2=tmp[hijo2]
+        tmp.remove(hijo1)
+        tmp.remove(hijo2)
+        hijo1=hijo1.imagenGenerada
+        hijo2=hijo2.imagenGenerada
+        if(randrange(0,100)<=porcentaje):
+            hijo1,hijo2=cruzarAux(hijo1, hijo2)
+        imagen1 = imagen()
+        imagen2 = imagen()
+        imagen1.imagenGenerada=hijo1
+        imagen2.imagenGenerada=hijo2
+        nuevoArray.append(imagen1)
+        nuevoArray.append(imagen2)
+    return nuevoArray
+
+def cruzarAux(hijo1, hijo2):
+    nodo1 = np.array(hijo1)
+    nodo2 = np.array(hijo2)
+    for fila in range(0, len(nodo1)):
+        for columna in range(0,len(nodo1[0])):
+            if(random.choice([True,False])):
+                tmp=nodo1[fila][columna]
+                nodo1[fila][columna]=nodo2[fila][columna]
+                nodo2[fila][columna]=tmp
+    hijo1 = Image.fromarray(nodo1)
+    hijo2 = Image.fromarray(nodo2)
+    return (hijo1, hijo2)
+
 
 
 

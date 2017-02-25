@@ -6,12 +6,6 @@ import numpy as np
 import operator as op
 from operator import *
 
-def adaptavilidadJavierBryan():
-    print("Usando adaptavilidadJavierBryan")
-
-def euclideana():
-    print("Usando funcion euclideana")
-
 def comparacionEuclidiana(imagenDada,imagenMeta):
     sumatoria=0
     arregloDada = np.array(imagenDada)
@@ -20,17 +14,18 @@ def comparacionEuclidiana(imagenDada,imagenMeta):
     for fila in arregloNuevo:
         for columna in fila:
             sumatoria+= pow(columna,2)
-
-    return sqrt(sumatoria)
+    cantPixeles = (len(arregloDada)*len(arregloDada[0]))
+    return sqrt(sumatoria)/cantPixeles
 
 def establecerIndicesSimilitud(generacion,imagenMeta):
-
     tmp=0
     while(tmp<len(generacion)):
-        generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada,imagenMeta)
+        generacion[tmp].indiceSimilitud = (comparacionEuclidiana(generacion[tmp].imagenGenerada,imagenMeta))
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
 
+    for i in nuevaLista:
+        print(i.indiceSimilitud)
     return nuevaLista
 
 
