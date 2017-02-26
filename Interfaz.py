@@ -177,6 +177,7 @@ class Ui_MainWindow(object):
             if(self.generaciones[tmp][0].indiceSimilitud<=3.0):
                 print(tmp)
                 break
+
             tmp+=1
 
 
