@@ -173,13 +173,10 @@ class Ui_MainWindow(object):
                 mutacion(i.imagenGenerada, self.mutacion)
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
-            self.generaciones[tmp][0].indiceSimilitud
+            print(self.generaciones[tmp][0].indiceSimilitud)
             if(self.generaciones[tmp][0].indiceSimilitud<=3.0):
-                print(self.generaciones[tmp][0].indiceSimilitud)
                 print(tmp)
                 break
-
-            print(tmp)
             tmp+=1
 
 
