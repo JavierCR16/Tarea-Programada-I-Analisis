@@ -178,6 +178,7 @@ class Ui_MainWindow(object):
                 print(self.generaciones[tmp][0].indiceSimilitud)
                 print(tmp)
                 break
+
             print(tmp)
             tmp+=1
 
