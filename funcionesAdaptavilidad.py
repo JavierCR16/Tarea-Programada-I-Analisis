@@ -23,9 +23,6 @@ def establecerIndicesSimilitud(generacion,imagenMeta):
         generacion[tmp].indiceSimilitud = (comparacionEuclidiana(generacion[tmp].imagenGenerada,imagenMeta))
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
-
-    for i in nuevaLista:
-        print(i.indiceSimilitud)
     return nuevaLista
 
 

@@ -7,22 +7,6 @@ import operator as op
 from operator import *
 import random
 
-
-#  **POSIBILIDAD PARA MUTAR**
-
-    #img = Image.open(imagenDada).convert("L")
-    #arr = np.array(imagenMeta)
-    #tmp=0
-
-
-    # for caca in arr:
-    #    print(caca)
-   # while(tmp<len(arr[0])): cambiar color
-   #     arr[1][tmp]=0
-    #    tmp+=1
-
-    #imagen= Image.fromarray(arr) #Regresar a imagen
-    #imagen.save("cambiadaOriginal.png")
 def createPopulation(cantidad, width, height):#imagenMeta):
     arrayPoblacion = []
     tmp = 0
@@ -51,10 +35,6 @@ def mutacion(imagenMutar,porcentajeMutacion):
 
     contadorMutaciones = 0
     pixelesACambiar= (porcentajeMutacion/100)*cantidadPixeles(imagenMutar)
-
-    #imagenMutar= Image.fromarray(imagenMutar)
-   # imagenMutar.save("before.png")
-    #imagenMutar = np.array(imagenMutar)
 
     while (contadorMutaciones < pixelesACambiar):
         fila = random.randrange(0, len(imagenMutar))

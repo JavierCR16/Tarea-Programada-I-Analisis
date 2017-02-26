@@ -4,8 +4,11 @@ from crearPoblacion import *
 from funcionesAdaptavilidad import *
 from random import *
 import numpy as np
+import copy
 
 class Ui_MainWindow(object):
+
+    generaciones = [[]]
 
     listo = False
     imagenMeta = ""
@@ -159,20 +162,25 @@ class Ui_MainWindow(object):
         self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height)
-        #Ciclo
         establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta)
-        generacion1 = cruzar(self.arrayPoblacion, self.porcentajeCruce)
-        print("Indice 1 generacion\n")
-        establecerIndicesSimilitud(generacion1, self.imagenMeta)
-        #mutacion(self.arrayPoblacion[0].imagenGenerada,self.mutacion)
-        """
-        if(self.Euclideana.isChecked()):
-            euclideana()
-        elif(self.JavieryBryan.isChecked()):
-            adaptavilidadJavierBryan()
-        else:
-            print("Usar segunda opcion")
-        """
+        generacion1 = self.arrayPoblacion.copy()
+        self.generaciones.append(generacion1.copy())
+        #Ciclo
+        tmp = 1
+        while(True):
+            generacion1 = cruzar(generacion1, self.porcentajeCruce)
+            for i in generacion1:
+                mutacion(i.imagenGenerada, self.mutacion)
+            establecerIndicesSimilitud(generacion1, self.imagenMeta)
+            self.generaciones.append(generacion1.copy())
+            self.generaciones[tmp][0].indiceSimilitud
+            if(self.generaciones[tmp][0].indiceSimilitud<=3.0):
+                print(self.generaciones[tmp][0].indiceSimilitud)
+                print(tmp)
+                break
+            print(tmp)
+            tmp+=1
+
 
 if __name__ == "__main__":
     import sys
