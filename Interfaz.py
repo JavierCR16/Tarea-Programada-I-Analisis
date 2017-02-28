@@ -161,7 +161,7 @@ class Ui_MainWindow(object):
     def Iniciar(self):
         self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
-        self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height)
+        self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height, self.imagenMeta)
         establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta)
         generacion1 = self.arrayPoblacion.copy()
         self.generaciones.append(generacion1.copy())
@@ -169,15 +169,13 @@ class Ui_MainWindow(object):
         tmp = 1
         while(True):
             generacion1 = cruzar(generacion1, self.porcentajeCruce)
+            """
             for i in generacion1:
                 mutacion(i.imagenGenerada, self.mutacion)
+            """
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
-            print(self.generaciones[tmp][0].indiceSimilitud)
-            if(self.generaciones[tmp][0].indiceSimilitud<=3.0):
-                print(tmp)
-                break
-
+            print(generacion1[0].indiceSimilitud)
             tmp+=1
 
 
