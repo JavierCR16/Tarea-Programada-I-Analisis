@@ -156,6 +156,13 @@ class Ui_MainWindow(object):
             else:
                 self.label_7.setText("Guardado, ingrese una imagen")
         except:
+            self.saveData.setEnabled(True)
+            self.PorcentajeCruce.setEnabled(True)
+            self.PoblacionInicial.setEnabled(True)
+            self.PorcentajeMutacion.setEnabled(True)
+            self.PorcentajeMenosAptos.setEnabled(True)
+            self.lineEdit.setEnabled(True)
+            self.pushButton.setEnabled(True)
             self.label_7.setText("Error")
 
     def Iniciar(self):
@@ -169,10 +176,8 @@ class Ui_MainWindow(object):
         tmp = 1
         while(True):
             generacion1 = cruzar(generacion1, self.porcentajeCruce)
-            """
             for i in generacion1:
-                mutacion(i.imagenGenerada, self.mutacion)
-            """
+                mutacion(i, self.mutacion)
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
             print(generacion1[0].indiceSimilitud)

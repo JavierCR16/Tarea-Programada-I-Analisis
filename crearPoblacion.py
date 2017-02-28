@@ -24,14 +24,15 @@ def createPopulation(cantidad, width, height, imagenMeta):
     return arrayPoblacion
 
 def mutacion(imagenMutar,porcentajeMutacion):
-    imagenMutar = np.array(imagenMutar)
+    pixelesAptos = imagenMutar.pixelesAptos
+    imagenMutar = np.array(imagenMutar.imagenGenerada)
     contadorMutaciones = 0
-    pixeles = imagenMutar.size[0]*imagenMutar.size[1]
+    pixeles = imagenMutar.size
     pixelesACambiar= (porcentajeMutacion/100)*pixeles
     while (contadorMutaciones < pixelesACambiar):
         fila = random.randrange(0, len(imagenMutar))
         columna = random.randrange(0, len(imagenMutar[fila]))
-        if(random.choice([True,False]) and ([fila,columna] not in imagenMutar.pixelesAptos)):
+        if(random.choice([True,False]) and ([fila,columna] not in pixelesAptos)):
             tmp = imagenMutar[fila][columna]
             imagenMutar[fila][columna] = imagenMutar[fila][columna] + 255
             if(imagenMutar[fila][columna]>255):
