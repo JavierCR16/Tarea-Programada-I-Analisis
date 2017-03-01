@@ -86,7 +86,9 @@ def cruzarAux(hijo1, hijo2):
     nodo2 = np.array(hijo2.imagenGenerada)
     for fila in range(0, len(nodo1)):
         for columna in range(0,len(nodo1[0])):
-            if(random.choice([True,False])):
+            if(nodo1[fila][columna] == nodo2[fila][columna]):
+                pass
+            elif(random.choice([True,False])):
                 tmp=nodo1[fila][columna]
                 nodo1[fila][columna]=nodo2[fila][columna]
                 nodo2[fila][columna]=tmp

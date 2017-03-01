@@ -118,7 +118,13 @@ class Ui_MainWindow(object):
         self.JavieryBryan.setText(_translate("MainWindow", "Javier y Bryan"))
 
     def home(self):
-
+        self.saveData.setEnabled(True)
+        self.PorcentajeCruce.setEnabled(True)
+        self.PoblacionInicial.setEnabled(True)
+        self.PorcentajeMutacion.setEnabled(True)
+        self.PorcentajeMenosAptos.setEnabled(True)
+        self.lineEdit.setEnabled(True)
+        self.pushButton.setEnabled(True)
         self.pushButton.clicked.connect(self.openFile)
         self.saveData.clicked.connect(self.guardarVariables)
 
@@ -153,6 +159,8 @@ class Ui_MainWindow(object):
                 self.PorcentajeMenosAptos.setEnabled(False)
                 self.label_7.setText("Guardado, Iniciado")
                 self.Iniciar()
+                self.label_7.setText("Finalizado")
+                self.home()
             else:
                 self.label_7.setText("Guardado, ingrese una imagen")
         except:
@@ -171,6 +179,7 @@ class Ui_MainWindow(object):
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height, self.imagenMeta)
         establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta)
         generacion1 = self.arrayPoblacion.copy()
+        generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
         #Ciclo
         tmp = 1
@@ -181,7 +190,7 @@ class Ui_MainWindow(object):
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
-            if(generacion1[0].indiceSimilitud<=0.03):
+            if(generacion1[0].indiceSimilitud<=1):
                 break
             tmp+=1
 
