@@ -177,10 +177,12 @@ class Ui_MainWindow(object):
         while(True):
             generacion1 = cruzar(generacion1, self.porcentajeCruce)
             for i in generacion1:
-                mutacion(i, self.mutacion)
+                i.imagenGenerada = mutacion(i, self.mutacion, self.imagenMeta)
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
-            print(generacion1[0].indiceSimilitud)
+            generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
+            if(generacion1[0].indiceSimilitud<=0.02):
+                break
             tmp+=1
 
 

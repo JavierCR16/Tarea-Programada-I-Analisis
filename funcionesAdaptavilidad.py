@@ -20,7 +20,7 @@ def comparar(imagenDada, imagenMeta):
             coordinates = i, j
             comparacion = abs(imagenDada.getpixel(coordinates)-imagenMeta.getpixel(coordinates))
             similitudPixel=(comparacion*50)//127.5
-            if(similitudPixel<=10.0):
+            if(similitudPixel==0.0):
                 aptos+=[[i,j]]
     return aptos
 
@@ -28,7 +28,6 @@ def establecerIndicesSimilitud(generacion,imagenMeta):
     tmp=0
     while(tmp<len(generacion)):
         generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada, imagenMeta)
-        generacion[tmp].pixelesAptos = comparar(generacion[tmp].imagenGenerada, imagenMeta)
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
     return nuevaLista

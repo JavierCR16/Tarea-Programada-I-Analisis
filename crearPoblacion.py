@@ -23,20 +23,23 @@ def createPopulation(cantidad, width, height, imagenMeta):
         tmp+=1
     return arrayPoblacion
 
-def mutacion(imagenMutar,porcentajeMutacion):
-    pixelesAptos = imagenMutar.pixelesAptos
+def mutacion(imagenMutar, porcentajeMutacion, imagenMeta):
     imagenMutar = np.array(imagenMutar.imagenGenerada)
+    imagenMeta = np.array(imagenMeta)
     contadorMutaciones = 0
-    pixeles = imagenMutar.size
-    pixelesACambiar= (porcentajeMutacion/100)*pixeles
+    pixelesACambiar= (porcentajeMutacion/100)*(len(imagenMutar)*len(imagenMutar[0]))
     while (contadorMutaciones < pixelesACambiar):
         fila = random.randrange(0, len(imagenMutar))
         columna = random.randrange(0, len(imagenMutar[fila]))
-        if(random.choice([True,False]) and ([fila,columna] not in pixelesAptos)):
-            tmp = imagenMutar[fila][columna]
-            imagenMutar[fila][columna] = imagenMutar[fila][columna] + 255
-            if(imagenMutar[fila][columna]>255):
-                imagenMutar[fila][columna]-=tmp
+        if(random.choice([True,False])):
+            if(imagenMeta[fila][columna]==imagenMutar[fila][columna]):
+                pass
+            elif((imagenMeta[fila][columna] < imagenMutar[fila][columna])):
+                dif = imagenMutar[fila][columna] - imagenMeta[fila][columna]
+                imagenMutar[fila][columna] = abs(imagenMutar[fila][columna] - random.randrange(0, dif))
+            else:
+                dif = imagenMutar[fila][columna]
+                imagenMutar[fila][columna] = imagenMutar[fila][columna] + random.randrange(0, 255-dif)
         contadorMutaciones += 1
     imagenMutar = Image.fromarray(imagenMutar)
     return imagenMutar
@@ -66,13 +69,16 @@ def cruzar(generacion, porcentaje):
         tmp.remove(hijo1)
         tmp.remove(hijo2)
         if(randrange(0,100)<=porcentaje):
-            hijo1,hijo2=cruzarAux(hijo1, hijo2)
-        imagen1 = imagen()
-        imagen2 = imagen()
-        imagen1.imagenGenerada=hijo1
-        imagen2.imagenGenerada=hijo2
-        nuevoArray.append(imagen1)
-        nuevoArray.append(imagen2)
+            x,y=cruzarAux(hijo1, hijo2)
+            imagen1 = imagen()
+            imagen2 = imagen()
+            imagen1.imagenGenerada=x
+            imagen2.imagenGenerada=y
+            nuevoArray.append(imagen1)
+            nuevoArray.append(imagen2)
+        else:
+            nuevoArray.append(hijo1)
+            nuevoArray.append(hijo2)
     return nuevoArray
 
 def cruzarAux(hijo1, hijo2):
@@ -80,7 +86,7 @@ def cruzarAux(hijo1, hijo2):
     nodo2 = np.array(hijo2.imagenGenerada)
     for fila in range(0, len(nodo1)):
         for columna in range(0,len(nodo1[0])):
-            if(random.choice([True,False]) and ([fila,columna] not in hijo1.pixelesAptos) and ([fila,columna] not in hijo2.pixelesAptos)):
+            if(random.choice([True,False])):
                 tmp=nodo1[fila][columna]
                 nodo1[fila][columna]=nodo2[fila][columna]
                 nodo2[fila][columna]=tmp
