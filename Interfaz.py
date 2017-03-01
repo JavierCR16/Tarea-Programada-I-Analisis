@@ -181,7 +181,7 @@ class Ui_MainWindow(object):
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
-            if(generacion1[0].indiceSimilitud<=0.02):
+            if(generacion1[0].indiceSimilitud<=0.03):
                 break
             tmp+=1
 
