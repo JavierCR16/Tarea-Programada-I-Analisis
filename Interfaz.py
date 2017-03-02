@@ -9,7 +9,7 @@ import copy
 class Ui_MainWindow(object):
 
     generaciones = [[]]
-
+    minSimilitud = 0.2
     listo = False
     imagenMeta = ""
     size = width, height = 0, 0
@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
     
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(498, 350)
+        MainWindow.resize(496, 351)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
@@ -68,7 +68,6 @@ class Ui_MainWindow(object):
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(10, 190, 141, 16))
         self.label_5.setObjectName("label_5")
-        #
         self.label_6 = QtWidgets.QLabel(self.centralwidget)
         self.label_6.setGeometry(QtCore.QRect(10, 280, 121, 16))
         self.label_6.setObjectName("label_6")
@@ -82,9 +81,18 @@ class Ui_MainWindow(object):
         self.JavieryBryan.setGeometry(QtCore.QRect(320, 280, 91, 19))
         self.JavieryBryan.setObjectName("JavieryBryan")
         #
+        self.similitud = QtWidgets.QLineEdit(self.centralwidget)
+        self.similitud.setGeometry(QtCore.QRect(140, 310, 41, 21))
+        self.similitud.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.similitud.setObjectName("similitud")
+        self.label_8 = QtWidgets.QLabel(self.centralwidget)
+        self.label_8.setGeometry(QtCore.QRect(10, 310, 131, 21))
+        self.label_8.setObjectName("label_8")
+        #
         self.PorcentajeMutacion = QtWidgets.QLineEdit(self.centralwidget)
         self.PorcentajeMutacion.setGeometry(QtCore.QRect(10, 210, 121, 20))
         self.PorcentajeMutacion.setObjectName("PorcentajeMutacion")
+        self.Euclideana.setChecked(True)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 494, 21))
@@ -93,8 +101,6 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-        self.Euclideana.setChecked(True)
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -116,6 +122,8 @@ class Ui_MainWindow(object):
         self.Euclideana.setText(_translate("MainWindow", "Euclideana"))
         self.radioButton_2.setText(_translate("MainWindow", "RadioButton"))
         self.JavieryBryan.setText(_translate("MainWindow", "Javier y Bryan"))
+        self.similitud.setText(_translate("MainWindow", "0.2"))
+        self.label_8.setText(_translate("MainWindow", "Minimo Indice de similitud: "))
 
     def home(self):
         self.saveData.setEnabled(True)
@@ -125,6 +133,7 @@ class Ui_MainWindow(object):
         self.PorcentajeMenosAptos.setEnabled(True)
         self.lineEdit.setEnabled(True)
         self.pushButton.setEnabled(True)
+        self.similitud.setEnabled(True)
         self.pushButton.clicked.connect(self.openFile)
         self.saveData.clicked.connect(self.guardarVariables)
 
@@ -151,12 +160,14 @@ class Ui_MainWindow(object):
             self.porcentajeCruce = int(self.PorcentajeCruce.text())
             self.porcentajeMenosAptos = int(self.PorcentajeMenosAptos.text())
             self.mutacion = int(self.PorcentajeMutacion.text())
+            self.minSimilitud = float(self.similitud.text()) 
             if(self.listo):
                 self.saveData.setEnabled(False)
                 self.PorcentajeCruce.setEnabled(False)
                 self.PoblacionInicial.setEnabled(False)
                 self.PorcentajeMutacion.setEnabled(False)
                 self.PorcentajeMenosAptos.setEnabled(False)
+                self.similitud.setEnabled(False)
                 self.label_7.setText("Guardado, Iniciado")
                 self.Iniciar()
                 self.label_7.setText("Finalizado")
@@ -171,6 +182,7 @@ class Ui_MainWindow(object):
             self.PorcentajeMenosAptos.setEnabled(True)
             self.lineEdit.setEnabled(True)
             self.pushButton.setEnabled(True)
+            self.similitud.setEnabled(True)
             self.label_7.setText("Error")
 
     def Iniciar(self):
@@ -190,7 +202,7 @@ class Ui_MainWindow(object):
             establecerIndicesSimilitud(generacion1, self.imagenMeta)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
-            if(generacion1[0].indiceSimilitud<=1):
+            if(generacion1[0].indiceSimilitud<=self.minSimilitud):
                 break
             tmp+=1
 
