@@ -5,10 +5,11 @@ from funcionesAdaptavilidad import *
 from random import *
 import numpy as np
 import copy
+import time
 
 class Ui_MainWindow(object):
 
-    generaciones = [[]]
+    generaciones = []
     minSimilitud = 0.2
     listo = False
     imagenMeta = ""
@@ -19,6 +20,7 @@ class Ui_MainWindow(object):
     poblacion = 0
     mutacion = 0
     arrayPoblacion = []
+
     
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -185,6 +187,7 @@ class Ui_MainWindow(object):
             self.similitud.setEnabled(True)
             self.label_7.setText("Error")
 
+
     def Iniciar(self):
         self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
@@ -205,6 +208,7 @@ class Ui_MainWindow(object):
             if(generacion1[0].indiceSimilitud<=self.minSimilitud):
                 break
             tmp+=1
+        tiraImagenes(self.generaciones)
 
 
 if __name__ == "__main__":
