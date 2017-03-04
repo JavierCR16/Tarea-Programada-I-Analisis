@@ -101,18 +101,36 @@ def cruzarAux(hijo1, hijo2):
     return (hijo1, hijo2)
 
 def tiraImagenes(matrizGeneraciones):
+    print("Cantidad de Gens:" + str(len(matrizGeneraciones)))
+
     indiceImagenes = int(len(matrizGeneraciones)*(10/100))
+    print("indice: "+ str(indiceImagenes))
     x = matrizGeneraciones[0][0].imagenGenerada.size[0] * 10
     y=matrizGeneraciones[0][0].imagenGenerada.size[1]
     size = x,y
     imagenTira = Image.new("L", size, "white")
-    fila=0
 
+    tamanoAnchura = matrizGeneraciones[0][0].imagenGenerada.size[0]
+    fila=0
+    contadorAnchura= 0
+
+    if(indiceImagenes==0): # En caso de que hayan menos de 10 generaciones por x razon
+        for generacion in matrizGeneraciones:
+            imagenTira.paste(generacion[0].imagenGenerada,(contadorAnchura,0))
+            contadorAnchura+=tamanoAnchura
+    else:
+        while(fila < len(matrizGeneraciones)):  #si hay mas de 10 generaciones, realizar varias pruebas, Ejemplo si hay18 generaciones, el indice queda en 1, agarra las primeras 10
+            imagenTira.paste(matrizGeneraciones[fila][0].imagenGenerada,(contadorAnchura,0))
+            fila+=indiceImagenes
+            contadorAnchura+=tamanoAnchura
+    imagenTira.save("TiraGeneraciones.png")
+    """
     for left in range(0, matrizGeneraciones[0][0].imagenGenerada.size[0] * 10,matrizGeneraciones[0][0].imagenGenerada.size[0]):
         imagenTira.paste(matrizGeneraciones[fila][0].imagenGenerada,(left,0))
         print("Usando imagen de Generacion: "+ str(fila))
         fila+=indiceImagenes
     imagenTira.save("TiraGeneraciones.png")
+    """
 
     """
     print("aqui")
