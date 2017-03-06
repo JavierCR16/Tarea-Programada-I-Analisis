@@ -81,7 +81,7 @@ class Ui_MainWindow(object):
         self.radioButton_2.setObjectName("radioButton_2")
         self.JavieryBryan = QtWidgets.QRadioButton(self.centralwidget)
         self.JavieryBryan.setGeometry(QtCore.QRect(320, 280, 91, 19))
-        self.JavieryBryan.setObjectName("JavieryBryan")
+        self.JavieryBryan.setObjectName("Javier y Bryan")
         #
         self.similitud = QtWidgets.QLineEdit(self.centralwidget)
         self.similitud.setGeometry(QtCore.QRect(140, 310, 41, 21))
@@ -189,20 +189,31 @@ class Ui_MainWindow(object):
 
 
     def Iniciar(self):
+
+        if(self.Euclideana.isChecked()): #Para elegir el tipo de similitud
+            modalidad=0
+        elif(self.radioButton_2.isChecked()):
+            modalidad=2
+        else:
+            modalidad=1                 #Para elegir el tipo de similitud
+
+
         self.imagenMeta = self.imagenMeta.convert('L')
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height, self.imagenMeta)
-        establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta)
+        establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta,modalidad)
         generacion1 = self.arrayPoblacion.copy()
         generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
         #Ciclo
         tmp = 1
+
+
         while(True):
             generacion1 = cruzar(generacion1, self.porcentajeCruce)
             for i in generacion1:
                 i.imagenGenerada = mutacion(i, self.mutacion, self.imagenMeta)
-            establecerIndicesSimilitud(generacion1, self.imagenMeta)
+            establecerIndicesSimilitud(generacion1, self.imagenMeta,modalidad)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
             if(generacion1[0].indiceSimilitud<=self.minSimilitud):

@@ -5,7 +5,7 @@ from numpy import *
 from funcionesAdaptavilidad import *
 import numpy as np
 import random
-import threading
+
 
 def createPopulation(cantidad, width, height, imagenMeta):
     arrayPoblacion = []
@@ -100,11 +100,31 @@ def cruzarAux(hijo1, hijo2):
     hijo2 = Image.fromarray(nodo2)
     return (hijo1, hijo2)
 
+def cruzarOtra(hijo1,hijo2,porcentaje):
+    nodo1 = np.array(hijo1.imagenGenerada)
+    nodo2 = np.array(hijo2.imagenGenerada)
+    pixelesCambiar = (porcentaje/100)*(len(nodo1) * len(nodo1[0]))
+    contador = 0
+    while(contador< pixelesCambiar):
+        fila = random.randrange(0,len(nodo1))
+        columna= random.randrange(0,len(nodo1[0]))
+        if (nodo1[fila][columna] == nodo2[fila][columna]):
+            pass
+        elif (random.choice([True, False])):
+            tmp = nodo1[fila][columna]
+            nodo1[fila][columna] = nodo2[fila][columna]
+            nodo2[fila][columna] = tmp
+        contador+=1
+    hijo1 = Image.fromarray(nodo1)
+    hijo2 = Image.fromarray(nodo2)
+    return (hijo1, hijo2)
+
 def tiraImagenes(matrizGeneraciones):
     print("Cantidad de Gens:" + str(len(matrizGeneraciones)))
 
     indiceImagenes = int(len(matrizGeneraciones)*(10/100))
     print("indice: "+ str(indiceImagenes))
+
     x = matrizGeneraciones[0][0].imagenGenerada.size[0] * 10
     y=matrizGeneraciones[0][0].imagenGenerada.size[1]
     size = x,y
@@ -124,27 +144,3 @@ def tiraImagenes(matrizGeneraciones):
             fila+=indiceImagenes
             contadorAnchura+=tamanoAnchura
     imagenTira.save("TiraGeneraciones.png")
-    """
-    for left in range(0, matrizGeneraciones[0][0].imagenGenerada.size[0] * 10,matrizGeneraciones[0][0].imagenGenerada.size[0]):
-        imagenTira.paste(matrizGeneraciones[fila][0].imagenGenerada,(left,0))
-        print("Usando imagen de Generacion: "+ str(fila))
-        fila+=indiceImagenes
-    imagenTira.save("TiraGeneraciones.png")
-    """
-
-    """
-    print("aqui")
-    for left in range(0,matrizGeneraciones[0][0].imagenGenerada.size[0]*len(matrizGeneraciones),matrizGeneraciones[0][0].imagenGenerada.size[0]):
-        print("aqui no")
-        for top in range(0,matrizGeneraciones[0][0].imagenGenerada.size[1]*len(matrizGeneraciones[0]),matrizGeneraciones[0][0].imagenGenerada.size[1]):
-            imagenTira.paste(matrizGeneraciones[fila][0].imagenGenerada,(left,top))
-            fila+=1
-    imagenTira.save("TiraGeneraciones.png")"""
-
-
-
-
-
-
-
-

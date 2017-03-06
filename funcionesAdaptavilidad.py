@@ -24,13 +24,52 @@ def comparar(imagenDada, imagenMeta):
                 aptos+=[[i,j]]
     return aptos
 
-def establecerIndicesSimilitud(generacion,imagenMeta):
+def establecerIndicesSimilitud(generacion,imagenMeta,modalidad):
     tmp=0
     while(tmp<len(generacion)):
-        generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada, imagenMeta)
+        if(modalidad==0):
+            print("Usar Euclideana")
+            generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada, imagenMeta)
+        elif(modalidad==1):
+            print("Usar funcion nuestra")
+        else:
+            print("usar funcion de internet")
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
     return nuevaLista
 
+def indiceSimilitudPropia(imagenDada, imagenMeta):
 
+    arregloImagen = np.array(imagenDada)
+    anchoCuadrante= int(len(arregloImagen)/4)
+    x=anchoCuadrante
 
+    largoCuadrante= int(len(arregloImagen[0])/4)
+    y=largoCuadrante
+
+    matrizAuxiliar=[]
+    filaMatriz =[]
+
+    fila= 0
+    columna=0
+
+    arregloCuadrantes=[]
+
+    while(len(arregloCuadrantes)!= 16):
+
+        while(fila<largoCuadrante):
+
+            matrizAuxiliar+= [arregloImagen[fila][columna:largoCuadrante].tolist()]
+            fila+=1
+        arregloCuadrantes.append(matrizAuxiliar)
+
+        fila=largoCuadrante
+        largoCuadrante+=y
+        matrizAuxiliar=[]
+
+        if(fila==len(arregloImagen)):
+            columna=anchoCuadrante
+            anchoCuadrante+= x
+            fila =0
+            largoCuadrante=y
+    print("Cuadrantes hechos: "+ str(len(arregloCuadrantes)))
