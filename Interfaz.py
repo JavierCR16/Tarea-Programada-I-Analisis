@@ -219,7 +219,6 @@ class Ui_MainWindow(object):
         generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
         print(generacion1[0].indiceSimilitud)
-        print(indiceSimilitudPropia(self.imagenMeta,cuadrantes(self.imagenMeta)))
         #Ciclo
         tmp = 1
         while(True):
