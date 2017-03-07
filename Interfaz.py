@@ -20,6 +20,7 @@ class Ui_MainWindow(object):
     poblacion = 0
     mutacion = 0
     arrayPoblacion = []
+    comparacion = 0
 
     
     def setupUi(self, MainWindow):
@@ -76,11 +77,11 @@ class Ui_MainWindow(object):
         self.Euclideana = QtWidgets.QRadioButton(self.centralwidget)
         self.Euclideana.setGeometry(QtCore.QRect(140, 280, 84, 19))
         self.Euclideana.setObjectName("Euclideana")
-        self.radioButton_2 = QtWidgets.QRadioButton(self.centralwidget)
-        self.radioButton_2.setGeometry(QtCore.QRect(220, 280, 84, 19))
-        self.radioButton_2.setObjectName("radioButton_2")
+        self.cosenos = QtWidgets.QRadioButton(self.centralwidget)
+        self.cosenos.setGeometry(QtCore.QRect(220, 280, 150, 19))
+        self.cosenos.setObjectName("Distancia de Minkowski")
         self.JavieryBryan = QtWidgets.QRadioButton(self.centralwidget)
-        self.JavieryBryan.setGeometry(QtCore.QRect(320, 280, 91, 19))
+        self.JavieryBryan.setGeometry(QtCore.QRect(355, 280, 91, 19))
         self.JavieryBryan.setObjectName("Javier y Bryan")
         #
         self.similitud = QtWidgets.QLineEdit(self.centralwidget)
@@ -117,14 +118,14 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Abrir"))
         self.label.setText(_translate("MainWindow", "Tamaño de la población"))
         self.label_3.setText(_translate("MainWindow", "Porcentaje de cruce"))
-        self.label_4.setText(_translate("MainWindow", "Porcentaje de individuos menos aptos"))
+        self.label_4.setText(_translate("MainWindow", "Individuos menos aptos"))
         self.saveData.setText(_translate("MainWindow", "Guardar/Iniciar"))
         self.label_5.setText(_translate("MainWindow", "Porcentaje mutaciones"))
         self.label_6.setText(_translate("MainWindow", "Seleccionar adaptavilidad"))
         self.Euclideana.setText(_translate("MainWindow", "Euclideana"))
-        self.radioButton_2.setText(_translate("MainWindow", "RadioButton"))
+        self.cosenos.setText(_translate("MainWindow", "Distancia de Minkowski"))
         self.JavieryBryan.setText(_translate("MainWindow", "Javier y Bryan"))
-        self.similitud.setText(_translate("MainWindow", "0.2"))
+        self.similitud.setText(_translate("MainWindow","0.2"))
         self.label_8.setText(_translate("MainWindow", "Minimo Indice de similitud: "))
 
     def home(self):
@@ -136,6 +137,9 @@ class Ui_MainWindow(object):
         self.lineEdit.setEnabled(True)
         self.pushButton.setEnabled(True)
         self.similitud.setEnabled(True)
+        self.JavieryBryan.setEnabled(True)
+        self.Euclideana.setEnabled(True)
+        self.cosenos.setEnabled(True)
         self.pushButton.clicked.connect(self.openFile)
         self.saveData.clicked.connect(self.guardarVariables)
 
@@ -162,7 +166,13 @@ class Ui_MainWindow(object):
             self.porcentajeCruce = int(self.PorcentajeCruce.text())
             self.porcentajeMenosAptos = int(self.PorcentajeMenosAptos.text())
             self.mutacion = int(self.PorcentajeMutacion.text())
-            self.minSimilitud = float(self.similitud.text()) 
+            self.minSimilitud = float(self.similitud.text())
+            if(self.cosenos.isChecked()):
+                self.comparacion=1
+            elif(self.JavieryBryan.isChecked()):
+                self.comparacion=2
+            else:
+                self.comparacion=0
             if(self.listo):
                 self.saveData.setEnabled(False)
                 self.PorcentajeCruce.setEnabled(False)
@@ -170,6 +180,9 @@ class Ui_MainWindow(object):
                 self.PorcentajeMutacion.setEnabled(False)
                 self.PorcentajeMenosAptos.setEnabled(False)
                 self.similitud.setEnabled(False)
+                self.JavieryBryan.setEnabled(False)
+                self.Euclideana.setEnabled(False)
+                self.cosenos.setEnabled(False)
                 self.label_7.setText("Guardado, Iniciado")
                 self.Iniciar()
                 self.label_7.setText("Finalizado")
@@ -185,38 +198,40 @@ class Ui_MainWindow(object):
             self.lineEdit.setEnabled(True)
             self.pushButton.setEnabled(True)
             self.similitud.setEnabled(True)
+            self.JavieryBryan.setEnabled(True)
+            self.Euclideana.setEnabled(True)
+            self.cosenos.setEnabled(True)
             self.label_7.setText("Error")
 
 
     def Iniciar(self):
-
-        if(self.Euclideana.isChecked()): #Para elegir el tipo de similitud
-            modalidad=0
-        elif(self.radioButton_2.isChecked()):
-            modalidad=2
-        else:
-            modalidad=1                 #Para elegir el tipo de similitud
-
-
         self.imagenMeta = self.imagenMeta.convert('L')
+        if (((self.imagenMeta.size[0] % 4 != 0) or (
+                self.imagenMeta.size[1] % 4 != 0)) and self.JavieryBryan.isChecked()):
+            size = width, height = self.imagenMeta.size
+            width = math.floor(width / 4) * 4
+            height = math.floor(height / 4) * 4
+            self.imagenMeta = self.imagenMeta.resize((width, height), Image.ANTIALIAS)
         size = width, height = self.imagenMeta.size
         self.arrayPoblacion = createPopulation(self.tamañoPoblacion, width, height, self.imagenMeta)
-        establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta,modalidad)
+        establecerIndicesSimilitud(self.arrayPoblacion, self.imagenMeta, self.comparacion)
         generacion1 = self.arrayPoblacion.copy()
         generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
+        print(generacion1[0].indiceSimilitud)
+        print(indiceSimilitudPropia(self.imagenMeta,cuadrantes(self.imagenMeta)))
         #Ciclo
         tmp = 1
-
-
         while(True):
             generacion1 = cruzar(generacion1, self.porcentajeCruce)
             for i in generacion1:
                 i.imagenGenerada = mutacion(i, self.mutacion, self.imagenMeta)
-            establecerIndicesSimilitud(generacion1, self.imagenMeta,modalidad)
+            establecerIndicesSimilitud(generacion1, self.imagenMeta, self.comparacion)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
-            if(generacion1[0].indiceSimilitud<=self.minSimilitud):
+            print(generacion1[0].indiceSimilitud)
+            if((generacion1[0].indiceSimilitud <= self.minSimilitud and self.Euclideana.isChecked()) or
+                   (generacion1[0].indiceSimilitud >= self.minSimilitud and self.JavieryBryan.isChecked())):
                 break
             tmp+=1
         tiraImagenes(self.generaciones)

@@ -49,17 +49,6 @@ def cruzar(generacion, porcentaje):
     tmp = generacion
     nuevoArray=[]
     poblacion = len(generacion)
-    #Cruzar los dos mas aptos
-    #
-   # hijo1, hijo2 = cruzarAux(tmp[0], tmp[1])
-    #tmp=tmp[2:]
-    #imagen1 = imagen()
-    #imagen2 = imagen()
-    #imagen1.imagenGenerada = hijo1
-    #imagen2.imagenGenerada = hijo2
-    #nuevoArray.append(imagen1)
-    #nuevoArray.append(imagen2)
-    #
     while(len(nuevoArray) < poblacion):
         if(poblacion%2==1 and len(tmp)==1):
             nuevoArray.append(tmp[0])

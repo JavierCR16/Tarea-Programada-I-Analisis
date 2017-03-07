@@ -3,7 +3,7 @@ from random import *
 from claseImagen import *
 from numpy import *
 import numpy as np
-import operator as op
+from decimal import Decimal
 from operator import *
 
 def comparacionEuclidiana(imagenDada,imagenMeta):
@@ -12,64 +12,80 @@ def comparacionEuclidiana(imagenDada,imagenMeta):
     size = width, height=imagenDada.size
     return sqrt(sum(pow(a - b, 2) for a, b in zip(array1, array2))) / (width*height)
 
-def comparar(imagenDada, imagenMeta):
-    aptos = []
-    size = width, height = imagenMeta.size
-    for i in range(0, width, 1):
-        for j in range(0, height, 1):
-            coordinates = i, j
-            comparacion = abs(imagenDada.getpixel(coordinates)-imagenMeta.getpixel(coordinates))
-            similitudPixel=(comparacion*50)//127.5
-            if(similitudPixel==0.0):
-                aptos+=[[i,j]]
-    return aptos
-
-def establecerIndicesSimilitud(generacion,imagenMeta,modalidad):
+def establecerIndicesSimilitud(generacion,imagenMeta, opcion):
     tmp=0
     while(tmp<len(generacion)):
-        if(modalidad==0):
-            print("Usar Euclideana")
+        if(opcion==0):
             generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada, imagenMeta)
-        elif(modalidad==1):
-            print("Usar funcion nuestra")
+        elif(opcion==1):
+            generacion[tmp].indiceSimilitud = minkowski_distance(generacion[tmp].imagenGenerada, imagenMeta, 1)
         else:
-            print("usar funcion de internet")
+            cuadrantesMeta = cuadrantes(imagenMeta)
+            generacion[tmp].indiceSimilitud = indiceSimilitudPropia(generacion[tmp].imagenGenerada, cuadrantesMeta)
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
     return nuevaLista
 
-def indiceSimilitudPropia(imagenDada, imagenMeta):
+#Comparación por minkowski
+def square_rooted(x):
+    return round(sqrt(sum([a * a for a in x])), 3)
 
-    arregloImagen = np.array(imagenDada)
-    anchoCuadrante= int(len(arregloImagen)/4)
-    x=anchoCuadrante
+def compararCuadrantes(dada, meta):
+    resultado = 0
+    dif = 0
+    for i in range(0,len(dada)):
+        for j in range(0, len(dada[0])):
+            if(meta[i][j]>dada[i][j]):
+                dif = meta[i][j]-dada[i][j]
+            else:
+                dif = dada[i][j] - meta[i][j]
+            resultado += 100-((dif*100)/255)
+    return int(resultado/(len(dada)*len(dada[0])))
 
-    largoCuadrante= int(len(arregloImagen[0])/4)
-    y=largoCuadrante
+def indiceSimilitudPropia(imagenDada, cuadranteMeta):
+    cuadranteDada = cuadrantes(imagenDada)
+    resultado = 0
+    for i in range(0,16):
+        resultado += compararCuadrantes(cuadranteDada[i], cuadranteMeta[i])
+    return float(resultado/16)
 
-    matrizAuxiliar=[]
-    filaMatriz =[]
-
-    fila= 0
-    columna=0
-
-    arregloCuadrantes=[]
-
-    while(len(arregloCuadrantes)!= 16):
-
-        while(fila<largoCuadrante):
-
-            matrizAuxiliar+= [arregloImagen[fila][columna:largoCuadrante].tolist()]
-            fila+=1
+def cuadrantes(imagen):
+    arregloImagen = np.array(imagen)
+    anchoCuadrante = int(len(arregloImagen) / 4)
+    x = anchoCuadrante
+    largoCuadrante = int(len(arregloImagen[0]) / 4)
+    y = largoCuadrante
+    matrizAuxiliar = []
+    filaMatriz = []
+    fila = 0
+    columna = 0
+    arregloCuadrantes = []
+    while (len(arregloCuadrantes) != 16):
+        while (fila < anchoCuadrante):
+            matrizAuxiliar += [arregloImagen[fila][columna:largoCuadrante].tolist()]
+            fila += 1
         arregloCuadrantes.append(matrizAuxiliar)
+        fila = anchoCuadrante
+        anchoCuadrante += x
+        matrizAuxiliar = []
+        if (fila == len(arregloImagen)):
+            columna = largoCuadrante
+            largoCuadrante += y
+            fila = 0
+            anchoCuadrante = x
+    return arregloCuadrantes
 
-        fila=largoCuadrante
-        largoCuadrante+=y
-        matrizAuxiliar=[]
+def nth_root(value, n_root):
+    root_value = 1 / float(n_root)
+    return round(Decimal(value) ** Decimal(root_value), 3)
 
-        if(fila==len(arregloImagen)):
-            columna=anchoCuadrante
-            anchoCuadrante+= x
-            fila =0
-            largoCuadrante=y
-    print("Cuadrantes hechos: "+ str(len(arregloCuadrantes)))
+def minkowski_distance(x, y, p_value):
+    x = np.array(x, dtype='int64')
+    y = np.array(y, dtype='int64')
+    result = 0
+    for i in range(0,len(x)-1):
+        x1 = x[i]
+        y1 = y[i]
+        result += nth_root(sum(pow(abs(a - b), p_value) for a, b in zip(x1,y1)), p_value)
+    print(result)
+    return result
