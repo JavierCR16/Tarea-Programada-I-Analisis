@@ -123,6 +123,7 @@ def tiraImagenes(matrizGeneraciones):
     fila=0
     contadorAnchura= 0
 
+
     if(indiceImagenes==0): # En caso de que hayan menos de 10 generaciones por x razon
         for generacion in matrizGeneraciones:
             imagenTira.paste(generacion[0].imagenGenerada,(contadorAnchura,0))
