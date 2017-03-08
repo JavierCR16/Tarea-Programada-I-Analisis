@@ -85,7 +85,6 @@ def nth_root(value, n_root):
 def minkowski_distance(x, y, p_value):
     x = np.array(x, dtype='int64')
     y = np.array(y, dtype='int64')
-    result = 0
     for i in range(0,len(x)-1):
         x1 = x[i]
         y1 = y[i]
