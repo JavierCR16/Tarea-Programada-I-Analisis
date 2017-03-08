@@ -25,7 +25,7 @@ def establecerIndicesSimilitud(generacion,imagenMeta, opcion):
         tmp+=1
     nuevaLista = sorted(generacion, key=lambda imagen: imagen.indiceSimilitud)
     if(opcion ==2):
-        nuevaLista= nuevaLista[::-1] #invierte la lista para que elmás apto quede de primero( FUNCION PROPIA)
+        nuevaLista= nuevaLista[::-1] #invierte la lista para que elmás apto quede de primero( FUNCION PROPIA )
 
     return nuevaLista
 
