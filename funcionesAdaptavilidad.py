@@ -81,12 +81,12 @@ def cuadrantes(imagen):
 
 def nth_root(value, n_root):
     root_value = 1 / float(n_root)
-    return round(Decimal(value) ** Decimal(root_value), 3)
+    return round(value ** root_value, 3)#round(Decimal(value) ** Decimal(root_value), 3)
 
 
 def minkowski_distance(x, y, p_value):
     result = nth_root(sum(pow(abs(a - b), p_value) for a, b in zip(x, y)), p_value)
-    result = (result * 50) / 180
+    result = (result * 50) / 276
     return result
 
 def segunda(x, y):
@@ -99,4 +99,4 @@ def segunda(x, y):
             result += minkowski_distance(x[i][j], y[i][j], 1)
     result = result / (width * height)
     result = float(result * 50) / 105.833333333
-    return result
+    return int(result)

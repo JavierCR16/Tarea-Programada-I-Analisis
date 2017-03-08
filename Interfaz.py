@@ -229,7 +229,7 @@ class Ui_MainWindow(object):
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
             print(generacion1[0].indiceSimilitud)
-            if((generacion1[0].indiceSimilitud <= self.minSimilitud and self.Euclideana.isChecked()) or
+            if((generacion1[0].indiceSimilitud <= self.minSimilitud and (self.Euclideana.isChecked() or self.cosenos.isChecked())) or
                    (generacion1[0].indiceSimilitud >= self.minSimilitud and self.JavieryBryan.isChecked())):
                 break
             tmp+=1
