@@ -18,7 +18,7 @@ def establecerIndicesSimilitud(generacion,imagenMeta, opcion):
         if(opcion==0):
             generacion[tmp].indiceSimilitud = comparacionEuclidiana(generacion[tmp].imagenGenerada, imagenMeta)
         elif(opcion==1):
-            generacion[tmp].indiceSimilitud = minkowski_distance(generacion[tmp].imagenGenerada, imagenMeta, 1)
+            generacion[tmp].indiceSimilitud = segunda(generacion[tmp].imagenGenerada, imagenMeta)
         else:
             cuadrantesMeta = cuadrantes(imagenMeta)
             generacion[tmp].indiceSimilitud = indiceSimilitudPropia(generacion[tmp].imagenGenerada, cuadrantesMeta)
@@ -78,16 +78,25 @@ def cuadrantes(imagen):
             anchoCuadrante = x
     return arregloCuadrantes
 
+
 def nth_root(value, n_root):
     root_value = 1 / float(n_root)
     return round(Decimal(value) ** Decimal(root_value), 3)
 
+
 def minkowski_distance(x, y, p_value):
-    x = np.array(x, dtype='int64')
-    y = np.array(y, dtype='int64')
-    for i in range(0,len(x)-1):
-        x1 = x[i]
-        y1 = y[i]
-        result += nth_root(sum(pow(abs(a - b), p_value) for a, b in zip(x1,y1)), p_value)
-    print(result)
+    result = nth_root(sum(pow(abs(a - b), p_value) for a, b in zip(x, y)), p_value)
+    result = (result * 50) / 180
+    return result
+
+def segunda(x, y):
+    size = width, height = x.size
+    x = np.array(x.convert("RGB"), dtype='int64')
+    y = np.array(y.convert("RGB"), dtype='int64')
+    result = 0
+    for i in range(0, len(x)):
+        for j in range(0, len(x[0])):
+            result += minkowski_distance(x[i][j], y[i][j], 1)
+    result = result / (width * height)
+    result = float(result * 50) / 105.833333333
     return result
