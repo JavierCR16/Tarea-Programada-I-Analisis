@@ -221,7 +221,6 @@ class Ui_MainWindow(object):
         generacion1 = self.arrayPoblacion.copy()
         generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
-
         listaIndices.append(generacion1[0].indiceSimilitud)
         print(generacion1[0].indiceSimilitud)
         #Ciclo
@@ -240,7 +239,6 @@ class Ui_MainWindow(object):
                 break
             tmp+=1
         tiraImagenes(self.generaciones)
-        print(range(0,len(self.generaciones)+1))
         print(listaIndices)
 
 
