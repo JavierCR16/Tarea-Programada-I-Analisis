@@ -29,9 +29,7 @@ def establecerIndicesSimilitud(generacion,imagenMeta, opcion):
 
     return nuevaLista
 
-#Comparación por minkowski
-def square_rooted(x):
-    return round(sqrt(sum([a * a for a in x])), 3)
+
 
 def compararCuadrantes(dada, meta):
     resultado = 0
@@ -78,6 +76,9 @@ def cuadrantes(imagen):
             anchoCuadrante = x
     return arregloCuadrantes
 
+#Comparación por minkowski
+def square_rooted(x):
+    return round(sqrt(sum([a * a for a in x])), 3)
 
 def nth_root(value, n_root):
     root_value = 1 / float(n_root)

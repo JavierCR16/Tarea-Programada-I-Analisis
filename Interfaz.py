@@ -205,6 +205,9 @@ class Ui_MainWindow(object):
 
 
     def Iniciar(self):
+        listaIndices = []
+
+
         self.imagenMeta = self.imagenMeta.convert('L')
         if (((self.imagenMeta.size[0] % 4 != 0) or (
                 self.imagenMeta.size[1] % 4 != 0)) and self.JavieryBryan.isChecked()):
@@ -218,6 +221,8 @@ class Ui_MainWindow(object):
         generacion1 = self.arrayPoblacion.copy()
         generacion1[0].imagenGenerada.save(str(0) + "gen.png")
         self.generaciones.append(generacion1.copy())
+
+        listaIndices.append(generacion1[0].indiceSimilitud)
         print(generacion1[0].indiceSimilitud)
         #Ciclo
         tmp = 1
@@ -228,12 +233,15 @@ class Ui_MainWindow(object):
             establecerIndicesSimilitud(generacion1, self.imagenMeta, self.comparacion)
             self.generaciones.append(generacion1.copy())
             generacion1[0].imagenGenerada.save(str(tmp)+"gen.png")
+            listaIndices.append(generacion1[0].indiceSimilitud)
             print(generacion1[0].indiceSimilitud)
             if((generacion1[0].indiceSimilitud <= self.minSimilitud and (self.Euclideana.isChecked() or self.cosenos.isChecked())) or
                    (generacion1[0].indiceSimilitud >= self.minSimilitud and self.JavieryBryan.isChecked())):
                 break
             tmp+=1
         tiraImagenes(self.generaciones)
+        print(range(0,len(self.generaciones)+1))
+        print(listaIndices)
 
 
 if __name__ == "__main__":
