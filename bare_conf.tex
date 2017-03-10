@@ -311,7 +311,7 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 \usepackage[utf8]{inputenc}
-
+\usepackage{enumerate}
 \begin{document}
 %
 % paper title
@@ -441,10 +441,107 @@ La función de mutar recibe como parámetro la imagen a mutar, la imagen a mutar
 
 
 \section{Experimentos y Discusión}
+\subsection{Experimentos de la Distancia Euclideana}
 \par
-Mediante la inspeccción de los resultados de las pruebas realizadas notamos que las imagenes tienden a converger más rápido implementando la distancia de Minkowski, esto si tomamos en cuenta las pruebas parametrizadas para menos mutación y más cruce, ademas de esto notamos que nuestra implementacion para la similitud de imagenes, además de consumir más tiempo (hablaremos mas adelante acerca de este apartado) retrasa el proceso de converger, pensamos que esto es debido a la manera de evaluar de nuestra funcion, ya que, a diferencia de la distancia Euclideana y a la distancia de Minkwoski que toma cada pixel y los compara, nuestra implementacion toma cierto numero de cuadrantes para compararlo a la imagen meta es posible que al hacer esto se incremente el margen de error de nuestra funcion y la haga ser un poco menos efectiva. Ahora bien en lo que respecta a las pruebas parametrizadas para más mutación y menos cruce podemos observar como las funciones de adaptavilidad convergen mucho mas rapido (diferencia de al menos 100 generaciones con respecto a menos mutación y más cruce) 
+En el primer experimento utilizamos los siguientes parametros:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia Euclideana
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 10
+	\item Individuos menos aptos: 20
+	\item Porcentaje mutaciones: 80
+	\item Similitud Minima: 0.2
+\end{itemize}
+Por este experimento podemos notar que entre más porcentaje de mutación se le aplique al algoritmo más rápido convergerá, poniendolo en comparación con su contraparte (menos mutación más cruce) podemos notar que, gracias al porcentaje dde mutación, se empieza a apreciar como la imagen, desde el inicio, tiende más rapido a la imagen meta, proporcionando datos observamos que la función euclideana tardó 40 genereciones para lograr una similitud menor o igual a 0.2 difiriendo por unos cuantos pixeles de la imagen meta%[FIX ME meter imagen]
+Seguidamente presentamos los resulados del segundo experimeto en el cual utilizamos los siguientes parametros:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia Euclideana
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 80
+	\item Individuos menos aptos: 15
+	\item Porcentaje mutaciones: 10
+	\item Similitud Minima: 0.2
+\end{itemize}
+Para iniciar podemos notar un amplio incremento en la cantidad de generaciones utilizadas para llegar a la similitud de 0.2, además creemos que, debido a la manera en que los parametros son damos (menos mutación más cruce), la fución se queda estancada por varias generaciones con indices de similitud muy parecidos
+y para finalizar los experimentos de la distancia euclideana utilizamos los siguientes parametros:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia Euclideana
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 50
+	\item Individuos menos aptos: 15
+	\item Porcentaje mutaciones: 50
+	\item Similitud Minima: 0.2
+\end{itemize}
+Notamos que en igualdad de condiciones (50\% mutación 50\% cruce) nuestro algoritmo tiende a un punto central entre nuestros dos ultimos experimentos, además podemos notar que las imagenes, llegando al indice de similitud solicitado, difieren por unos cuantos pixeles al igual que nuestro experimento donde los parametros utilizados fueron 80\% cruce 10\%mutación.
+
+\subsection{Experimentos de la distancia de Minkowski}
 \par
-Para finalizar, realizando pruebas observamos que cuando la función Euclideana tiende a 0 (se acerca más a la imagen meta) los indices de similitud empiezan a variar por poco decimales o la población puede salir defectuosa, podemos notar este comportamiento a su vez en nuestra fución de similitud.
+Los parametros utilizados para nuestra primera prueba fueron:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia de Minkowski
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 10
+	\item Individuos menos aptos: 20
+	\item Porcentaje mutaciones: 80
+	\item Similitud Minima: 95
+\end{itemize}
+Para inciar comparando los resultados de Minkowski con la distancia Euclideana podemos ver que entre las diferentes implementciones, y usando parametros similares para su usovemos que la distancia de Minkowski utilizó menos generaciones para llegar a su objetivo, aunque analisando las imagenes de cada implementación podemos notar que la implementación de Minkowski difiere por mas pixeles a la implementación de la distancia Euclideana, pensamos que esto se debe a las diferencias entre los indices de similitud utilizados.
+
+Los parametros de nuestra siguiente prueba:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia de Minkowski
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 80
+	\item Individuos menos aptos: 16
+	\item Porcentaje mutaciones: 10
+	\item Similitud Minima: 95
+\end{itemize}
+Volviendo a comparar la implementación de la distancia de Minkowski con la distancia Euclideana podemos notar, al igual que con el experimento anterior, vemos como, con menos generaciones, se logra llegar a  más rapido al indice de similitud desea, igualmente aclaramos la situación, antes mencionada, de los indices de similitud. Igualmente notamos que tambien la distancia de Minkowski se ve afectada por la manera en que se introducen los parametros y tiende más rápido a la imagen meta cuando se aplica un mayor indice de similitud.
+Finalizando al igual que con la euclideana presentamos los parametros utilizados para nuestro ultimo experimento con Minkowski:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia de Minkowski
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 50
+	\item Individuos menos aptos: 20
+	\item Porcentaje mutaciones: 50
+	\item Similitud Minima: 95
+\end{itemize}
+Para finalizar, notamos que Minkowski con parametros equiparados muestr un conportamiento muy similar a la distancia euclideana en igualdad de condiciones solo que en esta oportunidad se logra el indice de similitud deseado en tan solo 16 generaciones.
+\subsection{Experimentos Función de Adaptabilidad Propia}
+\par
+Al igual que en las secciones anteriores presentamos los parametros utilizados para evaluar nuestra función de similitud:
+\begin{itemize}
+	\item Función de Similitud utilizada: Propia
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 10
+	\item Individuos menos aptos: 20
+	\item Porcentaje mutaciones: 80
+	\item Similitud Minima: 95
+\end{itemize}
+Al igual que en los anteriores experimentos podemos notar como al incrementar el porcentaje de mutación se ve ampliamenta reducida la cantidad de generaciones necesarias para lograr llegar a la similitud meta, en este caso nos tomó 20 generaciones, podemos apreciar una amplia mejora comparandola con la distacia euclideana y además una pequeña mejora de una generación con respecto a la distancia de Minkowski
+Seguidamente presentamos nuestro segundo experimento realizado co n nuestra función de similitud la cual lleva los siguientes parametros:
+\begin{itemize}
+	\item Función de Similitud utilizada: Propia
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 80
+	\item Individuos menos aptos: 10
+	\item Porcentaje mutaciones: 10
+	\item Similitud Minima: 98
+\end{itemize}
+Aqui podemos notar un cambio abrupto en el numero de generaciones necesarias para llegar al indice de simmilitud deseado, en este caso fueron necesarias 151 generaciones, al realizar las pruebas notamos que el indice de similitud se queda estancado, como ya antes lo mencionamos.
+Para finalizar los experimentos realizados tenemos que utilizamos los siguientes parametros:
+\begin{itemize}
+	\item Función de Similitud utilizada: Distancia de Minkowski
+	\item Tamaño de la población: 100
+	\item Porcentaje de cruce: 50
+	\item Individuos menos aptos: 20
+	\item Porcentaje mutaciones: 50
+	\item Similitud Minima: 95
+\end{itemize}
+Igual que siempre notamos un comportamiento que tiende al medios de las dos pruebas anteriores, podemos observar como un incremento en el porcentaje de mutación ayuda a la confección de individuos más aptos
+
+Como conclusiones generales para las pruebas realizadas notamos que las imagenes tienden a converger más rápido implementando la distancia de Minkowski, esto si tomamos en cuenta las pruebas parametrizadas para menos mutación y más cruce, ademas de esto notamos que nuestra implementacion para la similitud de imagenes, además de consumir más tiempo (hablaremos mas adelante acerca de este apartado) retrasa el proceso de converger, pensamos que esto es debido a la manera de evaluar de nuestra funcion, ya que, a diferencia de la distancia Euclideana y a la distancia de Minkwoski que toma cada pixel y los compara, nuestra implementacion toma cierto numero de cuadrantes para compararlo a la imagen meta es posible que al hacer esto se incremente el margen de error de nuestra funcion y la haga ser un poco menos efectiva. Ahora bien en lo que respecta a las pruebas parametrizadas para más mutación y menos cruce podemos observar como las funciones de adaptavilidad convergen mucho mas rapido (diferencia de al menos 100 generaciones con respecto a menos mutación y más cruce).
+Para finalizar podemos notar que las tres funciones de similitud presentan comportamientos similares con parametros similares. 
 
 \section{Análisis de las Funciones de Adaptabilidad}
 %\subsubsection{Subsubsection Heading Here}
